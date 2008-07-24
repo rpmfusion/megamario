@@ -1,12 +1,13 @@
 Name:           megamario
 Version:        1.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Well known platform game clone
 Group:          Amusements/Games
-License:        LGPL
+License:        LGPL+
 URL:            http://mmario.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/mmario/MegaMario_v1.5_w32_linux.zip
 Source1:        %{name}.desktop
+Patch0:         megamario-1.5-compile-fix.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  SDL_mixer-devel SDL_image-devel SDL_ttf-devel
 BuildRequires:  ImageMagick desktop-file-utils
@@ -20,6 +21,7 @@ captured by the evil Bowser.
 
 %prep
 %setup -q -c
+%patch0 -p1
 sed -i 's/\r//' *.txt
 
 
@@ -73,6 +75,9 @@ touch --no-create %{_datadir}/icons/hicolor || :
 
 
 %changelog
+* Thu Jul 24 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 1.5-2
+- Release bump for rpmfusion
+
 * Tue Jun  5 2007 Hans de Goede <j.w.r.degoede@hhs.nl> 1.5-1%{?dist}
 - New upstream release 1.5
 
