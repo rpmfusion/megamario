@@ -1,6 +1,6 @@
 Name:           megamario
 Version:        1.5
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Well known platform game clone
 Group:          Amusements/Games
 License:        LGPL+
@@ -75,6 +75,9 @@ touch --no-create %{_datadir}/icons/hicolor || :
 
 
 %changelog
+* Sun Mar 19 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 1.5-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Sun Aug 31 2014 Sérgio Basto <sergio@serjux.com> - 1.5-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
