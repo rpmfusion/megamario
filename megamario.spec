@@ -1,16 +1,19 @@
 Name:           megamario
-Version:        1.5
-Release:        9%{?dist}
+Version:        1.7
+Release:        1%{?dist}
 Summary:        Well known platform game clone
 Group:          Amusements/Games
-License:        LGPL+
+License:        LGPLv2
 URL:            http://mmario.sourceforge.net/
-Source0:        http://downloads.sourceforge.net/mmario/MegaMario_v1.5_w32_linux.zip
+Source0:        http://downloads.sourceforge.net/mmario/MegaMario_v%{version}_full.zip
 Source1:        %{name}.desktop
 Patch0:         megamario-1.5-compile-fix.patch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:  SDL_mixer-devel SDL_image-devel SDL_ttf-devel
-BuildRequires:  ImageMagick desktop-file-utils
+
+BuildRequires:  SDL_mixer-devel
+BuildRequires:  SDL_image-devel
+BuildRequires:  SDL_ttf-devel
+BuildRequires:  ImageMagick
+BuildRequires:  desktop-file-utils
 Requires:       hicolor-icon-theme
 
 %description
@@ -26,21 +29,20 @@ sed -i 's/\r//' *.txt
 
 
 %build
-make %{?_smp_mflags} PREFIX=%{_prefix} \
-  CFLAGS="$RPM_OPT_FLAGS -fsigned-char"
+%make_build PREFIX=%{_prefix} \
+  CFLAGS="$RPM_OPT_FLAGS -fsigned-char" \
+  LDFLAGS="-lSDL -lSDL_mixer -lSDL_ttf -lSDL_image -lGL $RPM_LD_FLAGS"
 convert -transparent '#FF00FF' data/gfx/characters/small/player1r.PNG \
   %{name}.png
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make install PREFIX=$RPM_BUILD_ROOT%{_prefix}
 # cruft removal
 rm $RPM_BUILD_ROOT%{_datadir}/megamario/levels/1/1
-rm $RPM_BUILD_ROOT%{_datadir}/megamario/levels/11/maiin
+rm $RPM_BUILD_ROOT%{_datadir}/megamario/levels/11/mai
 rm $RPM_BUILD_ROOT%{_datadir}/megamario/save.sav
-rm $RPM_BUILD_ROOT%{_datadir}/megamario/sfx/jump.gpk
-rm $RPM_BUILD_ROOT%{_datadir}/megamario/gfx/tiles/pipes/left/Desktop.ini
+
 
 # below is the desktop file and icon stuff.
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
@@ -52,22 +54,22 @@ install -p -m 644 %{name}.png \
   $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
 
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-
 %post
-touch --no-create %{_datadir}/icons/hicolor || :
-%{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 %postun
-touch --no-create %{_datadir}/icons/hicolor || :
-%{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+if [ $1 -eq 0 ] ; then
+    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+fi
+
+%posttrans
+/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %files
-%defattr(-,root,root,-)
-%doc CONTROLS.txt licence.txt readme.txt fixes_v1.5.txt
+%doc CONTROLS.txt readme.txt fixes_v%{version}.txt
+%license licence.txt
 %{_bindir}/%{name}
 %{_datadir}/%{name}
 %{_datadir}/applications/dribble-%{name}.desktop
@@ -75,6 +77,10 @@ touch --no-create %{_datadir}/icons/hicolor || :
 
 
 %changelog
+* Sun Oct 22 2017 Leigh Scott <leigh123linux@googlemail.com> - 1.7-1
+- New upstream release 1.7 (rfbz #4526)
+- Clean up spec file
+
 * Thu Aug 31 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 1.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
