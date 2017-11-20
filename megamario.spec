@@ -1,6 +1,6 @@
 Name:           megamario
 Version:        1.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Well known platform game clone
 Group:          Amusements/Games
 License:        LGPLv2
@@ -26,6 +26,7 @@ captured by the evil Bowser.
 %setup -q -c
 %patch0 -p1
 sed -i 's/\r//' *.txt
+sed -i -e 's@Canyon.jpg@canyon.jpg@g' data/levels/grasslevels/grassland
 
 
 %build
@@ -77,6 +78,9 @@ fi
 
 
 %changelog
+* Mon Nov 20 2017 Leigh Scott <leigh123linux@googlemail.com> - 1.7-2
+- Fix canyon file name (rfbz #4526)
+
 * Sun Oct 22 2017 Leigh Scott <leigh123linux@googlemail.com> - 1.7-1
 - New upstream release 1.7 (rfbz #4526)
 - Clean up spec file
