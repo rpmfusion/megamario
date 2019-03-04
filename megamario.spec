@@ -9,6 +9,7 @@ Source0:        http://downloads.sourceforge.net/mmario/MegaMario_v%{version}_fu
 Source1:        %{name}.desktop
 Patch0:         megamario-1.5-compile-fix.patch
 
+BuildRequires:  gcc-c++
 BuildRequires:  SDL_mixer-devel
 BuildRequires:  SDL_image-devel
 BuildRequires:  SDL_ttf-devel
