@@ -25,7 +25,7 @@ captured by the evil Bowser.
 
 %prep
 %setup -q -c
-%patch0 -p1
+%patch -P0 -p1
 sed -i 's/\r//' *.txt
 sed -i -e 's@Canyon.jpg@canyon.jpg@g' data/levels/grasslevels/grassland
 
