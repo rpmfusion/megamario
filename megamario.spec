@@ -1,6 +1,6 @@
 Name:           megamario
 Version:        1.7
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Well known platform game clone
 Group:          Amusements/Games
 License:        LGPLv2
@@ -79,6 +79,9 @@ fi
 
 
 %changelog
+* Sun Jul 27 2025 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 1.7-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
+
 * Tue Jan 28 2025 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 1.7-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_42_Mass_Rebuild
 
